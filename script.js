@@ -61,9 +61,30 @@ function draw() {
 
 
   if (menu == 1) {
-    background(0, 255, 0)
-    fill(0)
-    textSize(20)
+    function draw() {
+	  background(0);
+
+    let a = color('green')
+    rect(cx, cy, 20, 70);
+    fill(a)
+    cy = cy + cv
+ 
+
+    if(cy < 0 || cy > 350) {
+    cv = cv * -1;
+    }
+
+
+    rect(px, mouseY, 20, 70);
+    fill(a)
+    py = py + pv
+
+    if(py < 0 || py > 350) {
+    pv = pv * -1;
+    }
+    ball1.drawBall()
+
+}
     text('Right Click to return to MENU', 525, 30)
     if (mouseButton == RIGHT) {
       menu = 0
