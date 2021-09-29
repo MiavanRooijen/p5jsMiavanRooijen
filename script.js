@@ -1,32 +1,98 @@
-var x, y, v;
+let menu = 0
+var cx, px, cy, py, cv, pv;
+
+
+class Ball {
+  constructor(x, y, h, w, vx, vy) {
+    this.x = x
+    this.y = y
+    this.h = h
+    this.w = w
+    this.vx = vx
+    this.vy = vy
+  }
+
+  drawBall() {
+    ellipse(this.x, this.y, this.h, this.w);
+    this.x = this.x + this.vx
+    this.y = this.y + this.vy
+
+
+    if (this.x < 0 || this.x > 600) {
+      this.vx = this.vx * -1;
+    }
+
+    if (this.y < 0 || this.y > 400) {
+      this.vy = this.vy * -1;
+    }
+  }
+}
 
 function setup() {
-	createCanvas(500, 400)
+	createCanvas(600, 400)
 
-  x = 0;
-  y = 200;
-  vx = 5;
-  vy = 5;
-  vn = 5;
-  vm = 5;
+  cx = 20;
+  cy = 200;
+  cv = 2;
+  px = 560;
+  py = 200;
+  pv = 2;
+
+  ball1 = new Ball(0, 300, 20, 20, 5, 5)
+}
+
+function setup() {
+  createCanvas(600, 400);
 }
 
 function draw() {
-	background(225);
-  let a = color('pink')
-  ellipse(x, y, 50, 50);
-  fill(a)
-  x = x + vx
-  y = y + vy
- 
+  print(mouseX, mouseY)
+  background(255);
+  b= 'green'
+  fill(b);
+  rect(50, 50, 200, 75);
+  fill(b);
+  rect(50, 200, 200, 75);
+  textSize(30)
+  a= 'white'
+  fill(a);
+  text('start', 70, 96);
+  text('instructions',70, 246);
 
-  if(x < 0 || x > 500) {
-   vx = vx * -1;
+
+  if (menu == 1) {
+    background(0, 255, 0)
+    fill(0)
+    textSize(20)
+    text('Right Click to return to MENU', 525, 30)
+    if (mouseButton == RIGHT) {
+      menu = 0
+    }
+  } 
+  if (menu == 2) {
+    background(0)
+    textSize(15)
+    text('druk op rechter muisknop om terug bij menu te komen', 230, 50)
+    textSize(20)
+    text('1. Gebruik je muis om de balk te bewegen. ', 20, 175)
+    text('2. Probeer de bal tegen te houden.', 20, 225)
+    text('Als de bal langs je balk komt heeft de tegenstnder een punt.', 20, 275)
+    text('3. Het spel is afgelopen als iemand 10 punten behaald.', 20, 325)
+    if (mouseButton == RIGHT) {
+      menu = 0
+    }
+  } 
+}
+
+function mouseClicked() {
+  if (menu == 0) {
+    if (mouseX < 200 && mouseX > 50) {
+      if (mouseY < 125 && mouseY > 50) {
+        menu = 1
+      }
+      if (mouseY < 275 && mouseY > 200) {
+        menu = 2
+      }
+    }
   }
-
-  if(y < 0 || y > 400) {
-   vy = vy * -1;
-  }
-
-
 }
