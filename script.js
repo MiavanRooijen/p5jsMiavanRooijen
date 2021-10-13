@@ -1,6 +1,12 @@
-let menu = 0
+var gameState = 0;
 var cx, px, cy, py, cv, pv;
+var img;
+var [mouseX, mouseY, xspeed, yspeed] = [mouseX, mouseY, 20, 70];
 
+
+function preLoad(){
+  img = loadImage('images/startmenu.png')
+}
 
 class Ball {
   constructor(x, y, h, w, vx, vy) {
@@ -24,13 +30,48 @@ class Ball {
 
     if (this.y < 0 || this.y > 400) {
       this.vy = this.vy * -1;
+
+    if (this.x==mouseX + this.y==mouseY) {
+       this.vx = this.vx * -1;
+    }
     }
   }
 }
 
 function setup() {
-	createCanvas(600, 400)
+  createCanvas(600, 400);
+  ball1 = new Ball(100, 300, 20, 20, 2, 2);
+  img = loadImage('images/startmenu.jpg')
+}
 
+function draw() {
+
+  if (gameState == 0) {
+    menu();
+  }
+
+
+  if (gameState == 1) {
+    game();
+  }
+
+  if (gameState == 2) {
+    background(0)
+    textSize(15)
+    text('druk op rechter muisknop om terug bij menu te komen', 230, 50)
+    textSize(20)
+    text('1. Gebruik je muis om de balk te bewegen. ', 20, 175)
+    text('2. Probeer de bal tegen te houden.', 20, 225)
+    text('Als de bal in jouw doel komt heeft de tegenstander een punt.', 20, 275)
+    text('3. Het spel is afgelopen als iemand 10 punten behaald.', 20, 325)
+    if (mouseButton == RIGHT) {
+      gameState = 0
+    }
+  }
+}
+
+function game() {
+  background(0);
   cx = 20;
   cy = 200;
   cv = 2;
@@ -38,81 +79,62 @@ function setup() {
   py = 200;
   pv = 2;
 
-  ball1 = new Ball(0, 300, 20, 20, 5, 5)
+  ball1.drawBall();
+
+
+
+  let a = color('green')
+  rect(cx, cy, 20, 70);
+  fill(a)
+  cy = cy + cv
+
+
+  if (cy < 0 || cy > 350) {
+    cv = cv * -1;
+  }
+
+
+  rect(mouseX, mouseY, 20, 70);
+  fill(a)
+  py = py + pv
+
+  if (py < 0 || py > 350) {
+    pv = pv * -1;
+  }
+
+  ball1.drawBall();
+
+  if (mouseButton == RIGHT) {
+    gameState = 0
+  }
 }
 
-function setup() {
-  createCanvas(600, 400);
-}
-
-function draw() {
-  print(mouseX, mouseY)
-  background(255);
-  b= 'green'
+function menu() {
+  background(img);
+  b = 'purple'
   fill(b);
   rect(50, 50, 200, 75);
   fill(b);
   rect(50, 200, 200, 75);
   textSize(30)
-  a= 'white'
+  a = 'white'
   fill(a);
   text('start', 70, 96);
-  text('instructions',70, 246);
+  text('instructions', 70, 246);
 
-
-  if (menu == 1) {
-    function draw() {
-	  background(0);
-
-    let a = color('green')
-    rect(cx, cy, 20, 70);
-    fill(a)
-    cy = cy + cv
- 
-
-    if(cy < 0 || cy > 350) {
-    cv = cv * -1;
-    }
-
-
-    rect(px, mouseY, 20, 70);
-    fill(a)
-    py = py + pv
-
-    if(py < 0 || py > 350) {
-    pv = pv * -1;
-    }
-    ball1.drawBall()
-
-}
-    text('Right Click to return to MENU', 525, 30)
-    if (mouseButton == RIGHT) {
-      menu = 0
-    }
-  } 
-  if (menu == 2) {
-    background(0)
-    textSize(15)
-    text('druk op rechter muisknop om terug bij menu te komen', 230, 50)
-    textSize(20)
-    text('1. Gebruik je muis om de balk te bewegen. ', 20, 175)
-    text('2. Probeer de bal tegen te houden.', 20, 225)
-    text('Als de bal langs je balk komt heeft de tegenstnder een punt.', 20, 275)
-    text('3. Het spel is afgelopen als iemand 10 punten behaald.', 20, 325)
-    if (mouseButton == RIGHT) {
-      menu = 0
-    }
-  } 
+  if (mouseButton == RIGHT) {
+    gameState = 0;
+  }
 }
 
 function mouseClicked() {
-  if (menu == 0) {
+  if (gameState == 0) {
     if (mouseX < 200 && mouseX > 50) {
       if (mouseY < 125 && mouseY > 50) {
-        menu = 1
+        gameState = 1
       }
       if (mouseY < 275 && mouseY > 200) {
-        menu = 2
+        gameState = 2
       }
     }
   }
